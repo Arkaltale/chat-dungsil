@@ -1,0 +1,9 @@
+.playwright-cli/
+output/
+tests/.generated/
+node_modules/
+.DS_Store
+*.log
+*.zip
+*.crx
+*.pem

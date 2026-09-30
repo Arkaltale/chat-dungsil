@@ -1,0 +1,145 @@
+.chat-dungsil-float {
+  position: fixed !important;
+  box-sizing: border-box !important;
+  z-index: 2147483000 !important;
+  max-width: none !important;
+  max-height: none !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  flex: none !important;
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.55);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: opacity 0.15s ease !important;
+}
+
+.chat-dungsil-interacting iframe {
+  pointer-events: none !important;
+}
+
+/* 글자 크기 도구 공용 스타일은 chat-font.js가 도구를 넣는 문서마다 주입한다. */
+ytd-live-chat-frame:has(> .chat-dungsil-font-toolbar) > iframe {
+  height: calc(100% - 28px) !important;
+}
+
+:fullscreen #aside-chatting.chat-dungsil-float {
+  display: flex !important;
+}
+
+#chat-dungsil-handle {
+  position: fixed;
+  height: 26px;
+  z-index: 2147483001;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 12px;
+  font-family: -apple-system, "Malgun Gothic", sans-serif;
+  border-radius: 6px 6px 0 0;
+  cursor: move;
+  user-select: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+#chat-dungsil-handle.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#chat-dungsil-handle.locked {
+  cursor: default;
+}
+
+#chat-dungsil-handle .chat-dungsil-btns button {
+  margin-left: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#chat-dungsil-handle .chat-dungsil-btns button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+#chat-dungsil-grip {
+  position: fixed;
+  width: 18px;
+  height: 18px;
+  z-index: 2147483002;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 50%, #4fc3f7 50%);
+  border-radius: 0 0 8px 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+#chat-dungsil-grip.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#chat-dungsil-grip.locked {
+  cursor: default;
+  pointer-events: none;
+}
+
+body.chat-dungsil-picking,
+body.chat-dungsil-picking * {
+  cursor: crosshair !important;
+}
+
+.chat-dungsil-hover-target {
+  outline: 3px dashed #ff5252 !important;
+  outline-offset: -2px;
+}
+
+#chat-dungsil-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: -apple-system, "Malgun Gothic", sans-serif;
+  z-index: 2147483647;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  max-width: 80vw;
+  text-align: center;
+}
+
+#chat-dungsil-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+#chat-dungsil-pip-open {
+  position: fixed !important;
+  right: 24px !important;
+  bottom: 24px !important;
+  z-index: 2147483646 !important;
+  padding: 10px 14px !important;
+  border: 1px solid #4fc3f7 !important;
+  border-radius: 6px !important;
+  background: #141517 !important;
+  color: #fff !important;
+  cursor: pointer !important;
+  font: 13px -apple-system, "Malgun Gothic", sans-serif !important;
+}

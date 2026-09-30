@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "챗둥실 – 치지직·유튜브 채팅 플로팅",
+  "version": "1.0.0",
+  "description": "치지직·유튜브 라이브 채팅을 플로팅해 위치·크기를 조절하고, 항상 위 PiP 창과 글자 크기 조절, 치지직 상단 표시 숨김·특정 사용자 모아보기를 제공합니다.",
+  "minimum_chrome_version": "116",
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "챗둥실"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://chzzk.naver.com/*"],
+      "js": ["chat-font.js", "chat-appearance.js", "content.js", "chat-watch.js", "chat-popup.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["chat-font.js", "content.js", "chat-popup.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.youtube.com/live_chat*"],
+      "js": ["chat-font.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://chzzk.naver.com/live/*/chat*"],
+      "js": ["chat-font.js", "chat-appearance.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ]
+}

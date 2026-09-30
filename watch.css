@@ -1,0 +1,17 @@
+html, body { height: 100%; }
+body { display: flex; flex-direction: column; margin: 0; background: #141517; color: #eee;
+  font: 13px -apple-system, "Malgun Gothic", sans-serif; }
+header { padding: 12px; border-bottom: 1px solid #3a3d42; }
+h1 { margin: 0 0 6px; font-size: 15px; }
+#status { color: #aeb3ba; font-size: 12px; }
+.controls { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; }
+button { padding: 6px 10px; background: #26282c; color: #fff; border: 1px solid #3a3d42;
+  border-radius: 6px; cursor: pointer; }
+.buttons { display: flex; gap: 6px; }
+#pipNotice { flex: 1; margin: 0; padding: 16px 12px; color: #aeb3ba; }
+#messages { flex: 1; overflow: auto; padding: 8px 12px; }
+.message { padding: 7px 0; border-bottom: 1px solid #292b30; white-space: pre-wrap; overflow-wrap: anywhere; }
+.meta { color: #aeb3ba; margin-bottom: 3px; }
+.meta time { font-size: 11px; }
+.name { color: #81c8f8; font-weight: 600; }
+footer { padding: 9px 12px; border-top: 1px solid #3a3d42; color: #8e949d; font-size: 11px; line-height: 1.4; }

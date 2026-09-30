@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+  body {
+    width: 240px;
+    max-height: 560px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 14px;
+    background: #141517;
+    color: #eee;
+    font-family: -apple-system, "Malgun Gothic", sans-serif;
+    font-size: 13px;
+  }
+  h1 { margin: 0 0 4px; font-size: 14px; }
+  #status { color: #9aa0a6; margin-bottom: 12px; }
+  #version { color: #9aa0a6; font-size: 11px; margin-bottom: 8px; }
+  button {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 8px 10px;
+    background: #26282c;
+    color: #fff;
+    border: 1px solid #3a3d42;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  button:hover:enabled { background: #33363c; }
+  button:disabled { opacity: 0.4; cursor: default; }
+  label { display: block; margin: 12px 0 4px; color: #cfd2d6; }
+  input[type="range"] { width: 100%; }
+  input[type="range"]:disabled { opacity: 0.4; }
+  #pipStatus { min-height: 16px; color: #9aa0a6; font-size: 11px; line-height: 1.4; }
+  #watchSection { margin-top: 12px; border-top: 1px solid #3a3d42; padding-top: 8px; }
+  #watchSection summary { cursor: pointer; font-weight: 600; }
+  #watchTargets { box-sizing: border-box; width: 100%; min-height: 70px; margin: 8px 0; padding: 6px;
+    background: #26282c; color: #fff; border: 1px solid #3a3d42; border-radius: 6px; resize: vertical; }
+  #watchStatus, .watchNote { color: #9aa0a6; font-size: 11px; line-height: 1.4; }
+  .keys { margin-top: 12px; color: #7a7f85; font-size: 11px; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <h1>챗둥실</h1>
+  <div id="version"></div>
+  <div id="status">확인 중…</div>
+  <div id="floatingControls">
+    <button id="toggle" disabled>플로팅 켜기/끄기</button>
+    <button id="reset" disabled>위치/크기 초기화</button>
+    <button id="hide" disabled>채팅 잠시 숨기기</button>
+    <label><input type="checkbox" id="pip" disabled> 외부 PiP 창 사용</label>
+    <div id="pipStatus"></div>
+    <label><input type="checkbox" id="locked" disabled> 이동·크기 조절 잠금</label>
+    <label><input type="checkbox" id="autoTheater" disabled> T 모드에서 자동 분리</label>
+    <label for="opacity">채팅 투명도 <span id="opv">100%</span></label>
+    <input type="range" id="opacity" min="30" max="100" step="10" value="100" disabled>
+  </div>
+  <label for="fontSize">채팅 글자 크기 <span id="fontSizeValue">사이트 기본값</span></label>
+  <input type="range" id="fontSize" min="12" max="24" step="1" value="16" disabled>
+  <button id="fontSizeReset" disabled>글자 크기 기본값 복원</button>
+  <div id="chatAppearance" hidden>
+    <label><input type="checkbox" id="hideChatBanner" disabled> 상단 배너 숨기기</label>
+    <label><input type="checkbox" id="hideChatRanking" disabled> 후원 순위 숨기기</label>
+  </div>
+  <details id="watchSection" hidden>
+    <summary>특정 사용자 모아보기</summary>
+    <label for="watchTargets">대상 닉네임 (한 줄에 한 명, 정확히 일치)</label>
+    <textarea id="watchTargets" placeholder="닉네임 한 명씩 입력"></textarea>
+    <button id="watchSave">대상 저장</button>
+    <button id="watchToggle">수집 시작</button>
+    <button id="watchOpen">모아보기 창 열기</button>
+    <div id="watchStatus"></div>
+    <p class="watchNote">현재 페이지에 새로 표시된 메시지만 최대 1,000건 보관합니다. 닉네임이 바뀌면 대상을 수정하세요. 삭제·차단 내용은 동기화되지 않습니다.</p>
+  </details>
+  <div class="keys" id="keys">
+    단축키 (macOS: Option+Shift)<br>
+    Alt+Shift+C 플로팅 켜기/끄기<br>
+    Alt+Shift+O 투명도 단계 조절<br>
+    Alt+Shift+R 위치/크기 초기화<br>
+    Alt+Shift+P 채팅창 수동 지정
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
