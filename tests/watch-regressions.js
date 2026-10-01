@@ -20,6 +20,8 @@ async page => {
   const extension = await context.newPage();
   await extension.goto(`chrome-extension://${extensionId}/popup.html`);
   await extension.evaluate(() => chrome.storage.local.clear());
+  // 팝업 모아보기 컨트롤을 조작하므로 첫 사용 확인을 미리 마친 상태로 둔다.
+  await extension.evaluate(() => chrome.storage.local.set({ 'chatDungsil:watchConsent': true }));
   const results = [];
   const record = (name, pass, detail) => results.push({ name, pass, detail });
   const append = (name, text) => page.evaluate(({ name, text }) => {

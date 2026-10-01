@@ -35,8 +35,13 @@
   input[type="range"] { width: 100%; }
   input[type="range"]:disabled { opacity: 0.4; }
   #pipStatus { min-height: 16px; color: #9aa0a6; font-size: 11px; line-height: 1.4; }
-  #watchSection { margin-top: 12px; border-top: 1px solid #3a3d42; padding-top: 8px; }
-  #watchSection summary { cursor: pointer; font-weight: 600; }
+  #watchSection, #help { margin-top: 12px; border-top: 1px solid #3a3d42; padding-top: 8px; }
+  #watchSection summary, #help summary { cursor: pointer; font-weight: 600; }
+  #watchConsent { margin-top: 8px; padding: 8px; background: #1c1d20; border: 1px solid #3a3d42; border-radius: 6px; }
+  #watchConsent ul, #help ul { margin: 6px 0 8px; padding-left: 16px; }
+  #watchConsent li, #help li { color: #cfd2d6; font-size: 11px; line-height: 1.5; margin-bottom: 4px; }
+  #watchConsent p { margin: 0; color: #cfd2d6; font-size: 12px; font-weight: 600; }
+  #watchTargets:disabled { opacity: 0.4; }
   #watchTargets { box-sizing: border-box; width: 100%; min-height: 70px; margin: 8px 0; padding: 6px;
     background: #26282c; color: #fff; border: 1px solid #3a3d42; border-radius: 6px; resize: vertical; }
   #watchStatus, .watchNote { color: #9aa0a6; font-size: 11px; line-height: 1.4; }
@@ -67,6 +72,16 @@
   </div>
   <details id="watchSection" hidden>
     <summary>특정 사용자 모아보기</summary>
+    <div id="watchConsent" hidden>
+      <p>처음 사용하기 전에 확인해 주세요.</p>
+      <ul>
+        <li>입력한 닉네임은 이 브라우저(chrome.storage.local)에만 저장됩니다.</li>
+        <li>수집을 시작하면 현재 방송 탭에 표시되는 대상 닉네임의 채팅(시간·닉네임·본문)을 그 탭의 메모리에만 최대 1,000건 보관합니다. 새로고침하거나 다른 방송으로 이동하면 지워집니다.</li>
+        <li>어떤 데이터도 외부 서버로 보내지 않습니다.</li>
+        <li>다른 시청자의 닉네임과 채팅을 다루므로 필요한 범위에서만 사용해 주세요.</li>
+      </ul>
+      <button id="watchConsentAccept">확인하고 사용하기</button>
+    </div>
     <label for="watchTargets">대상 닉네임 (한 줄에 한 명, 정확히 일치)</label>
     <textarea id="watchTargets" placeholder="닉네임 한 명씩 입력"></textarea>
     <button id="watchSave">대상 저장</button>
@@ -75,13 +90,25 @@
     <div id="watchStatus"></div>
     <p class="watchNote">현재 페이지에 새로 표시된 메시지만 최대 1,000건 보관합니다. 닉네임이 바뀌면 대상을 수정하세요. 삭제·차단 내용은 동기화되지 않습니다.</p>
   </details>
-  <div class="keys" id="keys">
-    단축키 (macOS: Option+Shift)<br>
-    Alt+Shift+C 플로팅 켜기/끄기<br>
-    Alt+Shift+O 투명도 단계 조절<br>
-    Alt+Shift+R 위치/크기 초기화<br>
-    Alt+Shift+P 채팅창 수동 지정
-  </div>
+  <details id="help">
+    <summary>사용 안내</summary>
+    <ul>
+      <li>채팅 분리: 「채팅 분리하기」나 Alt+Shift+C로 채팅을 화면 위에 띄웁니다. 전체화면(F키)에서는 자동으로 분리됩니다.</li>
+      <li>이동·크기 조절: 분리된 채팅에 마우스를 올리면 나타나는 상단 바를 끌어 옮기고, 우하단 모서리를 끌어 크기를 바꿉니다.</li>
+      <li>외부 PiP: 「외부 PiP 창 사용」을 켜면 채팅을 별도 PiP 창에 표시합니다.</li>
+      <li>글자 크기: 이 팝업의 슬라이더나 채팅 상단의 −/+/기본 버튼으로 조절합니다.</li>
+      <li>상단 표시 숨김(치지직): 채팅 상단 배너와 후원 순위를 각각 숨깁니다.</li>
+      <li>특정 사용자 모아보기(치지직): 지정한 닉네임의 채팅만 별도 창에 모아 봅니다.</li>
+      <li>사이트 자체 채팅 팝업 창에서는 분리·PiP 없이 글자 크기와 치지직 상단 표시·모아보기만 사용할 수 있습니다(유튜브 팝아웃 창은 글자 크기만).</li>
+    </ul>
+    <div class="keys" id="keys">
+      단축키 (macOS: Option+Shift)<br>
+      Alt+Shift+C 플로팅 켜기/끄기<br>
+      Alt+Shift+O 투명도 단계 조절<br>
+      Alt+Shift+R 위치/크기 초기화<br>
+      Alt+Shift+P 채팅창 수동 지정
+    </div>
+  </details>
   <script src="popup.js"></script>
 </body>
 </html>

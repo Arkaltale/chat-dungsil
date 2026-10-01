@@ -23,12 +23,17 @@ const watchSaveBtn = document.getElementById('watchSave');
 const watchToggleBtn = document.getElementById('watchToggle');
 const watchOpenBtn = document.getElementById('watchOpen');
 const watchStatusEl = document.getElementById('watchStatus');
+const watchConsentEl = document.getElementById('watchConsent');
+const watchConsentAcceptBtn = document.getElementById('watchConsentAccept');
+const WATCH_CONSENT_KEY = 'chatDungsil:watchConsent';
 const installedVersion = chrome.runtime.getManifest().version;
 let hidden = false;
 let targetTabId = null;
 let lastStatus = null;
 let watchState = null;
 let watchTargetsDirty = false;
+// 모아보기 첫 사용 확인. 저장소를 읽기 전(null)과 미동의(false)에는 컨트롤을 막는다.
+let watchConsent = null;
 
 function send(msg) {
   return new Promise((resolve) => {
@@ -148,7 +153,12 @@ function renderWatch(state) {
   if (!watchTargetsDirty && document.activeElement !== watchTargetsInput) {
     watchTargetsInput.value = state.targets.join('\n');
   }
-  watchToggleBtn.disabled = !state.enabled && !state.targets.length;
+  const blocked = watchConsent !== true;
+  watchConsentEl.hidden = watchConsent !== false;
+  watchTargetsInput.disabled = blocked;
+  watchSaveBtn.disabled = blocked;
+  watchOpenBtn.disabled = blocked;
+  watchToggleBtn.disabled = blocked || (!state.enabled && !state.targets.length);
   watchToggleBtn.textContent = state.enabled ? '수집 중지' : '수집 시작';
   watchStatusEl.textContent = (state.enabled ? '수집 중 · ' : '중지 · ') +
     state.count + '/1,000건' + (!state.available ? ' · 채팅창을 기다리는 중' : '') +
@@ -159,6 +169,11 @@ async function refreshWatch() {
   renderWatch(await send({ type: 'getWatchState' }));
 }
 
+watchConsentAcceptBtn.addEventListener('click', async () => {
+  await chrome.storage.local.set({ [WATCH_CONSENT_KEY]: true });
+  watchConsent = true;
+  renderWatch(watchState);
+});
 watchTargetsInput.addEventListener('input', () => { watchTargetsDirty = true; });
 watchSaveBtn.addEventListener('click', async () => {
   const result = await send({ type: 'setWatchTargets', targets: watchTargetsInput.value });
@@ -181,5 +196,9 @@ watchOpenBtn.addEventListener('click', async () => {
 
 refresh();
 setInterval(refresh, 500);
+chrome.storage.local.get(WATCH_CONSENT_KEY, (stored) => {
+  watchConsent = stored?.[WATCH_CONSENT_KEY] === true;
+  renderWatch(watchState);
+});
 refreshWatch();
 setInterval(refreshWatch, 1000);
