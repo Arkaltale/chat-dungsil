@@ -173,6 +173,8 @@ watchConsentAcceptBtn.addEventListener('click', async () => {
   await chrome.storage.local.set({ [WATCH_CONSENT_KEY]: true });
   watchConsent = true;
   renderWatch(watchState);
+  // 안내와 함께 확인 버튼이 숨겨지므로 키보드 포커스를 닉네임 입력으로 옮긴다.
+  watchTargetsInput.focus();
 });
 watchTargetsInput.addEventListener('input', () => { watchTargetsDirty = true; });
 watchSaveBtn.addEventListener('click', async () => {
