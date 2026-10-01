@@ -20,7 +20,10 @@ async page => {
   const results = [];
   const record = (name, pass, detail) => results.push({ name, pass, detail });
   const extension = `chrome-extension://${extensionId}/popup.html`;
-  const chatHtml = '<!doctype html><meta charset="utf-8"><aside class="_is_popup_chat_b8csn_13"><div class="_wrapper_1e2su_28 _scale_1e2su_39" id="native-scale">' +
+  // --persistent 프로필은 세션이 끝나도 남으므로 이전 실행의 저장값을 지우고 시작한다.
+  await popup.goto(extension);
+  await popup.evaluate(() => chrome.storage.local.clear());
+  const chatHtml = '<!doctype html><meta charset="utf-8"><style>#aside-chatting{width:380px;height:600px}</style><aside id="aside-chatting" class="_is_popup_chat_b8csn_13"><div class="_wrapper_1e2su_28 _scale_1e2su_39" id="native-scale">' +
     '<button class="_scale_button_1e2su_55" aria-label="채팅 크기 마이너스">−</button><span>100%</span>' +
     '<button class="_scale_button_1e2su_55" aria-label="채팅 크기 플러스">+</button></div><div id="native-chat" role="log"><div class="_chatting_message_w9pvh_21">' +
     '<span id="native-text" class="_text_w9pvh_1">독립 채팅</span></div></div></aside>';
@@ -65,6 +68,8 @@ async page => {
       scale: getComputedStyle(document.querySelector('#native-scale')).display,
       toolbars: document.querySelectorAll('#chat-dungsil-popup-font-toolbar').length,
       first: document.querySelector('aside').firstElementChild?.id,
+      handle: !!document.querySelector('#chat-dungsil-handle'),
+      pageToolbar: !!document.querySelector('#chat-dungsil-page-font-toolbar'),
     }));
     record('PiP·치지직 채팅 팝업에서 치지직 크기 버튼 숨김과 확장 툴바 단일 표시',
       native.scaleDisplay === 'none' && !native.popupToolbar && popupChat.scale === 'none' &&
@@ -107,6 +112,10 @@ async page => {
       return chrome.tabs.sendMessage(tab.id, message, { frameId: 0 });
     }, msg);
     const popupChatStatus = await popupChatSend({ type: 'getStatus' });
+    const popupChatWatch = await popupChatSend({ type: 'getWatchState' });
+    record('치지직 채팅 팝업 창에서 content.js 미동작과 모아보기 응답',
+      !popupChat.handle && !popupChat.pageToolbar && popupChatWatch != null && Array.isArray(popupChatWatch.targets),
+      { handle: popupChat.handle, pageToolbar: popupChat.pageToolbar, popupChatWatch });
     const popupChatFont = await popupChatSend({ type: 'setFontSize', value: 19 });
     const popupChatBanner = await popupChatSend({ type: 'setChatBannerHidden', value: true });
     const popupChatInvalid = await popupChatSend({ type: 'setFontSize', value: 99 });

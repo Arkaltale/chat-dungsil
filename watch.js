@@ -62,8 +62,8 @@ async function refresh() {
 }
 
 function applyFont(saved) {
-  const value = saved?.fontSize;
-  messagesEl.style.fontSize = Number.isInteger(value) && value >= 12 && value <= 24 ? value + 'px' : '';
+  const value = globalThis.chatDungsilFont.normalize(saved?.fontSize);
+  messagesEl.style.fontSize = value == null ? '' : value + 'px';
 }
 
 chrome.storage.local.get('chatDungsil:chzzk', result => applyFont(result['chatDungsil:chzzk']));

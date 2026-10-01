@@ -97,7 +97,8 @@ function render(st) {
     opacityInput.value = String(pct);
     opacityValue.textContent = pct + '%';
   }
-  if (Number.isInteger(st.fontSize) && st.fontSize >= 12 && st.fontSize <= 24) {
+  // content.js·chat-popup.js가 정규화한 값(12~24 정수 또는 null)을 보낸다.
+  if (st.fontSize != null) {
     fontSizeInput.value = String(st.fontSize);
     fontSizeValue.textContent = st.fontSize + 'px';
   } else {

@@ -9,12 +9,13 @@
 
 ## 사전 조건
 
-- Node.js(`npx` 포함). `run.sh`는 `npx --yes --package @playwright/cli playwright-cli`를
-  직접 호출하므로 처음 실행할 때 `@playwright/cli`를 내려받습니다.
+- Node.js(`npx` 포함). `run.sh`는 `npx --yes --package @playwright/cli@0.1.22 playwright-cli`를
+  직접 호출하므로 처음 실행할 때 `@playwright/cli`를 내려받습니다. 버전은 `run.sh`의
+  `PLAYWRIGHT_CLI_VERSION` 한 곳에서 고정하며, 바꾸면 아래 설치 명령의 버전도 함께 맞춥니다.
 - Playwright Chromium. 설치되어 있지 않다면 `@playwright/cli`와 같은 버전으로 한 번 설치합니다.
 
 ```sh
-npx --yes --package @playwright/cli playwright-cli install-browser chromium
+npx --yes --package @playwright/cli@0.1.22 playwright-cli install-browser chromium
 ```
 
 ## 실행
@@ -47,7 +48,7 @@ sh tests/run.sh pip watch  # 지정한 스위트만
 - `usability-regressions.js`: 모드별 위치, 화면 경계, T 자동 분리, 잠금·숨김, T 위치를 저장한 적 없을 때 일반 위치 승계, 같은 사이트 두 탭 사이 설정 동기화와 드래그 중 수신 보류를 검사합니다.
 - `popup-regressions.js`: 버전 일치·불일치 안내, 모드·탐지 상태, 설정 제어 메시지, 치지직·유튜브 채팅 팝업 전용 모드 표시를 검사합니다. 팝업 UI 검사는 상태 응답을 모의합니다.
 - `font-regressions.js`: 사이트별 글자 크기 저장·적용·기본값 복원과 native 채팅 iframe 동기화, 유튜브 채팅 팝아웃 창 전용 모드와 툴바를 검사합니다.
-- `pip-regressions.js`: 팝업 스위치와 독립 채팅 iframe, OFF·X·URL 변경·DOM 교체 복원, 전체화면·글꼴, 연속 요청과 오류 안내, 모아보기 PiP가 열릴 때 채팅 복원, 치지직 채팅 크기 버튼 숨김과 채팅 팝업 창 글자 크기 도구 동기화, 채팅 팝업 창의 확장 팝업 응답·설정 유지, 페이지·PiP·채팅 팝업 창 글자 크기 도구의 공용 스타일을 검사합니다.
+- `pip-regressions.js`: 팝업 스위치와 독립 채팅 iframe, OFF·X·URL 변경·DOM 교체 복원, 전체화면·글꼴, 연속 요청과 오류 안내, 모아보기 PiP가 열릴 때 채팅 복원, 치지직 채팅 크기 버튼 숨김과 채팅 팝업 창 글자 크기 도구 동기화, 채팅 팝업 창의 확장 팝업 응답·설정 유지, 채팅 팝업 창에서 content.js 미동작(이동 핸들·페이지 글자 크기 도구 없음)과 모아보기 상태 응답, 페이지·PiP·채팅 팝업 창 글자 크기 도구의 공용 스타일을 검사합니다.
 - `header-regressions.js`: 배너·순위 개별 숨김, 공간 복원·공지·입력 유지, 저장·native iframe 연동과 채팅 안 글자 크기 제어를 검사합니다.
 - `watch-regressions.js`: 시작 전 채팅 제외, 닉네임 필터, DOM 재렌더링·역순 배치·동일 발언 구분, 1,000건 한도, 별도 창 재사용·글꼴·자동 스크롤·원본 탭 종료, 모아보기 PiP 이동·갱신·복원과 다른 PiP에 의한 종료를 검사합니다.
 - 결과 객체의 `pass`가 `true`이고 모든 `results[].pass`가 `true`여야 통과입니다.

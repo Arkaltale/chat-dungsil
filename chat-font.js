@@ -85,7 +85,7 @@
     toolbar.querySelector('[data-action="reset"]').disabled = size == null;
   }
 
-  globalThis.chatDungsilFont = { MIN, MAX, normalize, nextSize, apply, createToolbar, renderToolbar };
+  globalThis.chatDungsilFont = { normalize, nextSize, apply, createToolbar, renderToolbar };
 
   // 자동 적용: 치지직(최상위·채팅 팝업 iframe)과 유튜브 채팅 iframe·팝아웃 창에서만.
   const isYoutubeChat = location.hostname === 'www.youtube.com' &&

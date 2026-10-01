@@ -8,6 +8,8 @@ ROOT=$(cd "$TESTS_DIR/.." && pwd)
 GEN_DIR="$TESTS_DIR/.generated"
 CONFIG="$GEN_DIR/cli.headless.config.json"
 ALL_SUITES="interaction platform usability popup font pip watch header"
+# README 의 브라우저 설치 명령도 같은 버전을 쓴다.
+PLAYWRIGHT_CLI_VERSION=0.1.22
 
 if ! command -v npx >/dev/null 2>&1; then
   echo "오류: npx 를 찾을 수 없습니다. Node.js 를 설치하세요." >&2
@@ -15,14 +17,14 @@ if ! command -v npx >/dev/null 2>&1; then
 fi
 
 case "$ROOT" in
-  *'|'*|*'\'*|*'"'*) echo "오류: 저장소 경로에 | \\ \" 문자가 있으면 설정을 만들 수 없습니다: $ROOT" >&2; exit 2 ;;
+  *'|'*|*'\'*|*'"'*|*'&'*) echo "오류: 저장소 경로에 | \\ \" & 문자가 있으면 설정을 만들 수 없습니다: $ROOT" >&2; exit 2 ;;
 esac
 
 mkdir -p "$GEN_DIR" || exit 2
 sed "s|__EXTENSION_ROOT__|$ROOT|g" "$TESTS_DIR/cli.headless.config.template.json" > "$CONFIG" || exit 2
 
 if [ $# -eq 0 ]; then
-  set -- interaction platform usability popup font pip watch header
+  set -- $ALL_SUITES
 fi
 for suite in "$@"; do
   if [ ! -f "$TESTS_DIR/$suite-regressions.js" ]; then
@@ -32,7 +34,7 @@ for suite in "$@"; do
 done
 
 pw() {
-  npx --yes --package @playwright/cli playwright-cli "$@"
+  npx --yes --package "@playwright/cli@$PLAYWRIGHT_CLI_VERSION" playwright-cli "$@"
 }
 
 # run-code 출력에서 {"pass":...} JSON 줄을 찾아 한 줄 요약을 출력한다. 통과면 0.

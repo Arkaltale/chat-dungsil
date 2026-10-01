@@ -69,7 +69,7 @@ macOS에서는 Alt = Option 키입니다.
 
 ## 개발·테스트
 
-빌드 과정은 없으며 저장소 폴더를 그대로 확장 프로그램으로 로드합니다. 회귀 검사는 실제 확장을 headless Chromium에 로드해 실행합니다. 실행기는 `sh tests/run.sh`로 정비 중이며, 방법과 검사 범위는 [tests/README.md](tests/README.md)를 참고하세요.
+빌드 과정은 없으며 저장소 폴더를 그대로 확장 프로그램으로 로드합니다. 회귀 검사는 실제 확장을 headless Chromium에 로드해 실행합니다. `sh tests/run.sh`로 실행하며, 방법과 검사 범위는 [tests/README.md](tests/README.md)를 참고하세요.
 
 ## 라이선스
 
