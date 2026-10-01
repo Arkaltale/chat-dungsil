@@ -72,7 +72,7 @@
 
 - 일반 채팅의 닉네임·본문을 12~24px로 고정한다. 값이 없으면(기본값) 사이트 원래 크기를 쓴다. 사이트별로 저장한다.
 - 확장 팝업의 슬라이더·기본값 버튼과, 채팅 상단의 −/현재 크기/+/기본 툴바로 조절한다. 툴바는 방송 페이지(도킹·플로팅)·외부 PiP·채팅 팝업 창에 같은 모양으로 붙는다. 어느 곳에서 바꿔도 같은 저장값을 쓴다.
-- 툴바 생성·표시·값 검사(12~24 정수)는 `chat-font.js`가 공용 API(`globalThis.chatDungsilFont`)로 제공하고, `content.js`와 `chat-popup.js`가 이를 쓴다. 툴바 스타일은 툴바를 넣는 문서마다 `<style id="chat-dungsil-font-toolbar-style">` 한 벌로 주입한다(PiP 문서에는 확장 CSS가 들어가지 않기 때문). 그래서 치지직·유튜브 최상위 페이지에는 `chat-font.js`가 `content.js`보다 먼저 들어가며, 유튜브 시청 페이지에서는 API만 제공하고 글자 크기 자동 적용은 하지 않는다.
+- 툴바 생성·표시·값 검사(12~24 정수)는 `chat-font.js`가 공용 API(`globalThis.chatDungsilFont`)로 제공하고, `content.js`·`chat-popup.js`와 모아보기 창(`watch.js`, 값 검사만)이 이를 쓴다. 툴바 스타일은 툴바를 넣는 문서마다 `<style id="chat-dungsil-font-toolbar-style">` 한 벌로 주입한다(PiP 문서에는 확장 CSS가 들어가지 않기 때문). 그래서 치지직·유튜브 최상위 페이지에는 `chat-font.js`가 `content.js`보다 먼저 들어가며, 유튜브 시청 페이지에서는 API만 제공하고 글자 크기 자동 적용은 하지 않는다.
 - 스타일은 대상 문서에 `<style>`을 넣어 적용하므로 새 메시지와 DOM 교체에도 유지된다. 치지직 독립 채팅 iframe·팝업 창, 유튜브 `live_chat`/`live_chat_replay` 프레임에는 글자 크기 적용 스크립트가 들어가 저장소 변경을 받아 다시 적용한다.
 - 모아보기 창도 치지직 글자 크기를 따른다.
 - 치지직 자체 채팅 크기(%) 버튼은 확장 PiP iframe(`name=chat-dungsil-pip`)과 치지직 채팅 팝업 창에서 숨긴다.
