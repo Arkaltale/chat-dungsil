@@ -35,21 +35,17 @@ let watchTargetsDirty = false;
 // 모아보기 첫 사용 확인. 저장소를 읽기 전(null)과 미동의(false)에는 컨트롤을 막는다.
 let watchConsent = null;
 
-function send(msg) {
-  return new Promise((resolve) => {
-    const deliver = (tabId) => {
-      if (tabId == null) return resolve(null);
-      chrome.tabs.sendMessage(tabId, msg, { frameId: 0 }, (res) => {
-        if (chrome.runtime.lastError) return resolve(null);
-        resolve(res || null);
-      });
-    };
-    if (targetTabId != null) return deliver(targetTabId);
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      targetTabId = tabs[0]?.id ?? null;
-      deliver(targetTabId);
-    });
-  });
+async function send(msg) {
+  if (targetTabId == null) {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    targetTabId = tab?.id ?? null;
+  }
+  if (targetTabId == null) return null;
+  try {
+    return (await chrome.tabs.sendMessage(targetTabId, msg, { frameId: 0 })) || null;
+  } catch {
+    return null;
+  }
 }
 
 function render(st) {
@@ -198,9 +194,10 @@ watchOpenBtn.addEventListener('click', async () => {
 
 refresh();
 setInterval(refresh, 500);
-chrome.storage.local.get(WATCH_CONSENT_KEY, (stored) => {
+(async () => {
+  const stored = await chrome.storage.local.get(WATCH_CONSENT_KEY);
   watchConsent = stored?.[WATCH_CONSENT_KEY] === true;
   renderWatch(watchState);
-});
+})();
 refreshWatch();
 setInterval(refreshWatch, 1000);

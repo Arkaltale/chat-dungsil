@@ -66,7 +66,7 @@ function applyFont(saved) {
   messagesEl.style.fontSize = value == null ? '' : value + 'px';
 }
 
-chrome.storage.local.get('chatDungsil:chzzk', result => applyFont(result['chatDungsil:chzzk']));
+(async () => applyFont((await chrome.storage.local.get('chatDungsil:chzzk'))['chatDungsil:chzzk']))();
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area === 'local' && changes['chatDungsil:chzzk']) applyFont(changes['chatDungsil:chzzk'].newValue);
 });

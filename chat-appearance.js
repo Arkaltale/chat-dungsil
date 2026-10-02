@@ -29,10 +29,10 @@
   }
 
   globalThis.chatDungsilAppearance = { apply };
-  chrome.storage.local.get([STORAGE_KEY], res => {
-    const saved = res[STORAGE_KEY] || {};
+  (async () => {
+    const saved = (await chrome.storage.local.get([STORAGE_KEY]))[STORAGE_KEY] || {};
     apply(document, saved.hideChatBanner === true, saved.hideChatRanking === true);
-  });
+  })();
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area !== 'local' || !changes[STORAGE_KEY]) return;
     const saved = changes[STORAGE_KEY].newValue || {};

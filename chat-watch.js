@@ -118,11 +118,10 @@
     return { targets, enabled, available: !!findLog(), count: messages.length, revision, stoppedReason };
   }
 
-  const targetsReady = new Promise(resolve => chrome.storage.local.get(STORAGE_KEY, result => {
-    const saved = result[STORAGE_KEY];
+  const targetsReady = (async () => {
+    const saved = (await chrome.storage.local.get(STORAGE_KEY))[STORAGE_KEY];
     if (Array.isArray(saved)) targets = saved.filter(value => typeof value === 'string');
-    resolve();
-  }));
+  })();
 
   new MutationObserver(scheduleScan).observe(document, { childList: true, characterData: true, subtree: true });
   setInterval(() => {
@@ -131,7 +130,8 @@
 
   chrome.runtime.onMessage.addListener((message, _sender, respond) => {
     if (!message || !MESSAGE_TYPES.has(message.type)) return;
-    targetsReady.then(() => {
+    (async () => {
+    await targetsReady;
     if (message.type === 'getWatchState') {
       respond(state());
     } else if (message.type === 'setWatchTargets') {
@@ -160,7 +160,7 @@
       respond(message.sinceRevision === revision ? { ...current, unchanged: true } :
         { ...current, messages });
     }
-    });
+    })();
     return true;
   });
 })();

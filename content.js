@@ -77,15 +77,13 @@
     };
   }
 
-  function loadState(cb) {
-    chrome.storage.local.get([STORAGE_KEY], (res) => {
-      state = normalize(res[STORAGE_KEY] || {});
-      locked = state.locked;
-      lastMode = currentMode();
-      if (!IS_YT) FONT.apply(document, state.fontSize);
-      if (!IS_YT) globalThis.chatDungsilAppearance?.apply(document, state.hideChatBanner, state.hideChatRanking);
-      cb();
-    });
+  async function loadState() {
+    const res = await chrome.storage.local.get([STORAGE_KEY]);
+    state = normalize(res[STORAGE_KEY] || {});
+    locked = state.locked;
+    lastMode = currentMode();
+    if (!IS_YT) FONT.apply(document, state.fontSize);
+    if (!IS_YT) globalThis.chatDungsilAppearance?.apply(document, state.hideChatBanner, state.hideChatRanking);
   }
 
   function saveState() {
@@ -833,7 +831,7 @@
       if (msg.type === 'getStatus') {
         sendResponse(status());
       } else if (msg.type === 'setPip') {
-        if (msg.value) openPip().then(sendResponse);
+        if (msg.value) (async () => sendResponse(await openPip()))();
         else {
           closePip();
           pipError = '';
@@ -1045,7 +1043,8 @@
     syncUI();
   });
 
-  loadState(() => {
+  (async () => {
+    await loadState();
     syncModeState();
     syncPageFontToolbar();
     setInterval(syncModeState, 250);
@@ -1105,6 +1104,6 @@
         syncUI();
       }
     }, 1000);
-  });
+  })();
   window.addEventListener('pagehide', closePip);
 })();

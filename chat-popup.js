@@ -30,14 +30,10 @@
   }
 
   // 방송 탭 content.js와 같은 저장 객체를 쓰므로 바꾼 항목만 합쳐 저장한다.
-  function save(patch, done) {
-    chrome.storage.local.get([STORAGE_KEY], res => {
-      saved = { ...res[STORAGE_KEY], ...patch };
-      chrome.storage.local.set({ [STORAGE_KEY]: saved }, () => {
-        syncToolbar();
-        done?.();
-      });
-    });
+  async function save(patch) {
+    saved = { ...(await chrome.storage.local.get([STORAGE_KEY]))[STORAGE_KEY], ...patch };
+    await chrome.storage.local.set({ [STORAGE_KEY]: saved });
+    syncToolbar();
   }
 
   function syncToolbar() {
@@ -54,10 +50,10 @@
     syncToolbar();
   }
 
-  chrome.storage.local.get([STORAGE_KEY], res => {
-    saved = res[STORAGE_KEY] || {};
+  (async () => {
+    saved = (await chrome.storage.local.get([STORAGE_KEY]))[STORAGE_KEY] || {};
     syncToolbar();
-  });
+  })();
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area !== 'local' || !changes[STORAGE_KEY]) return;
     saved = changes[STORAGE_KEY].newValue || {};
@@ -72,11 +68,11 @@
     } else if (msg?.type === 'setFontSize') {
       const value = msg.value;
       if (value !== null && FONT.normalize(value) === null) respond(status());
-      else save({ fontSize: value }, () => respond(status()));
+      else (async () => { await save({ fontSize: value }); respond(status()); })();
       return true;
     } else if (IS_CHZZK && (msg?.type === 'setChatBannerHidden' || msg?.type === 'setChatRankingHidden')) {
       const key = msg.type === 'setChatBannerHidden' ? 'hideChatBanner' : 'hideChatRanking';
-      save({ [key]: msg.value === true }, () => respond(status()));
+      (async () => { await save({ [key]: msg.value === true }); respond(status()); })();
       return true;
     }
   });

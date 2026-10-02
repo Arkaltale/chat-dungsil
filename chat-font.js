@@ -94,7 +94,7 @@
   if (isChzzk && window !== window.top && !/^\/live\/[^/]+\/chat\/?$/.test(location.pathname)) return;
 
   const STORAGE_KEY = isChzzk ? 'chatDungsil:chzzk' : 'chatDungsil:youtube';
-  chrome.storage.local.get([STORAGE_KEY], res => apply(document, res[STORAGE_KEY]?.fontSize));
+  (async () => apply(document, (await chrome.storage.local.get([STORAGE_KEY]))[STORAGE_KEY]?.fontSize))();
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area === 'local' && changes[STORAGE_KEY]) {
       apply(document, changes[STORAGE_KEY].newValue?.fontSize);
