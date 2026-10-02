@@ -4,6 +4,8 @@
 
 대시보드에 옮겨 적을 내용과 준비물을 모은 문서입니다. 근거는 Chrome 웹 스토어 공식 문서(developer.chrome.com/docs/webstore)이며, 표시가 없는 수치는 공식 문서에서 확인한 값입니다. 「결정 필요」로 남긴 칸은 게시 전에 채웁니다.
 
+대시보드 입력 위치: 등록정보·상세 설명·그래픽은 「스토어 등록정보」 탭, 단일 목적·권한 사용 근거·원격 코드·데이터 사용 공개·인증·개인정보처리방침 URL은 「개인정보」 탭입니다.
+
 ## 등록정보
 
 | 항목 | 값 |
@@ -53,7 +55,7 @@
 | --- | --- | --- | --- |
 | 확장 아이콘(필수) | 128×128 PNG(그림 96×96 + 사방 16px 투명 여백), 48·16px 권장 | ✅ 준비됨 | `icons/icon-{16,32,48,128}.png` |
 | 스크린샷 1(필수) | 1280×800(또는 640×400), 모서리 직각 | ⬜ 미제작 | |
-| 스크린샷 2~4(권장) | 같은 규격, 최대 5장 | ⬜ 미제작 | |
+| 스크린샷 2~5(선택) | 같은 규격, 최대 5장 | ⬜ 미제작 | |
 | 작은 프로모션 타일(필수) | 440×280 PNG/JPEG | ✅ 준비됨 | `store/promo-small-440x280.png`(원본 `store/promo-small.html`) |
 | 마키 타일(선택) | 1400×560 | ⬜ 미제작 | |
 
@@ -134,10 +136,11 @@
 
 ### 업로드 zip
 
-`manifest.json`이 최상위에 오고 런타임 파일만 담습니다. 저장소 루트에서 실행합니다.
+`manifest.json`이 최상위에 오고 런타임 파일만 담습니다. 저장소 루트에서 실행하며, 이전 zip을 지우고 manifest `version`을 파일 이름에 넣습니다.
 
 ```bash
-zip -X chat-dungsil-1.0.0.zip manifest.json *.js *.css popup.html watch.html icons/icon-*.png
+rm -f chat-dungsil-*.zip
+zip -X "chat-dungsil-$(node -p 'require("./manifest.json").version').zip" manifest.json *.js *.css popup.html watch.html icons/icon-*.png
 ```
 
 포함 목록 방식이라 `tests/`, `docs/`, `store/`, `output/`, `.playwright-cli/`, `.claude/`, `.git/`, `icons/icon.svg`, `README.md`, `CHANGELOG.md`, `CHROMEWEBSTORE.md`, `LICENSE`는 들어가지 않습니다. 새 런타임 파일을 추가하면 이 명령에도 넣습니다. `*.zip`은 `.gitignore`에 있어 커밋되지 않습니다.

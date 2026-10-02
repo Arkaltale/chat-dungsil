@@ -32,7 +32,8 @@
   // 방송 탭 content.js와 같은 저장 객체를 쓰므로 바꾼 항목만 합쳐 저장한다.
   async function save(patch) {
     saved = { ...(await chrome.storage.local.get([STORAGE_KEY]))[STORAGE_KEY], ...patch };
-    await chrome.storage.local.set({ [STORAGE_KEY]: saved });
+    // 저장에 실패해도 표시를 맞추고 응답한다.
+    try { await chrome.storage.local.set({ [STORAGE_KEY]: saved }); } catch {}
     syncToolbar();
   }
 
