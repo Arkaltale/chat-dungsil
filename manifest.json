@@ -3,11 +3,18 @@
   "name": "챗둥실 – 라이브 채팅 플로팅",
   "version": "1.0.0",
   "description": "치지직·YouTube에서 사용할 수 있는 라이브 채팅 플로팅 도구. 위치·크기 조절, 항상 위 PiP 창, 글자 크기 조절, 치지직 상단 표시 숨김·특정 사용자 모아보기.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
   "minimum_chrome_version": "116",
   "permissions": ["storage"],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "챗둥실"
+    "default_title": "챗둥실",
+    "default_icon": { "16": "icons/icon-16.png", "32": "icons/icon-32.png" }
   },
   "content_scripts": [
     {
