@@ -10,7 +10,7 @@
 | 요약 설명 | manifest `description`을 그대로 씀 |
 | 카테고리 | 도구(Tools) |
 | 언어 | 한국어 |
-| 개인정보처리방침 URL | GitHub Pages에 게시한 [privacy.md](privacy.md)의 주소 |
+| 개인정보처리방침 URL | GitHub Pages에 게시한 [docs/privacy.md](docs/privacy.md)의 주소 |
 
 이름에 YouTube·치지직을 넣지 않습니다. Google 상표는 서면 허가 없이 확장 이름에 쓸 수 없고, 호환 표기는 설명에서 "~에서 사용할 수 있는" 형태로만 씁니다.
 
